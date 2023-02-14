@@ -12,8 +12,7 @@ checkDuplicateEmail = (req, res, next) => {
 
     if (user) {
       res.status(400).send({
-        message:
-          "Error: This email has already been used for an existing account.",
+        message: "This email already exists in our database",
       });
       return;
     }
