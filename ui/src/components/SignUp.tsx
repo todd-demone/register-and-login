@@ -11,6 +11,7 @@
 // redirect to SignIn
 // add "That email already exists in our system."
 
+import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -24,6 +25,7 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import { signup } from "../services/auth.service";
 
 const schema = yup.object({
   fullname: yup.string().required("Full name is required."),
@@ -50,6 +52,9 @@ const schema = yup.object({
 type FormData = yup.InferType<typeof schema>;
 
 export default function SignUp() {
+  const [successful, setSuccessful] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>("");
+
   const {
     handleSubmit,
     control,
@@ -59,16 +64,27 @@ export default function SignUp() {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: FormData) => console.log(data);
+  const onSubmit = (data: FormData) => {
+    const { fullname, email, password } = data;
 
-  // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   console.log({
-  //     email: data.get("email"),
-  //     password: data.get("password"),
-  //   });
-  // };
+    signup(fullname, email, password).then(
+      (response) => {
+        setMessage(response.data.message);
+        setSuccessful(true);
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        setMessage(resMessage);
+        setSuccessful(false);
+      }
+    );
+  };
 
   return (
     <Container component="main" maxWidth="xs">
