@@ -26,7 +26,7 @@
 - React
 - TypeScript
 - React Router
-- axios
-- react-hook-form
-- yup
+- Axios
+- React Hook Form
+- Yup
 - MUI
