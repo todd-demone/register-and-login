@@ -1,4 +1,4 @@
-# Register and Login App
+# Registration and Login App
 
 ## Installation and startup on a local machine
 
