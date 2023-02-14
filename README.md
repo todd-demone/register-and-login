@@ -2,7 +2,7 @@
 
 ## Installation and startup on a local machine
 
-1. Install MongoDB - If you don't have MongoDB you can install it using [these instructions](https://www.mongodb.com/docs/manual/administration/install-community/).
+1. Install MongoDB - If you don't have MongoDB, you can install it using [these instructions](https://www.mongodb.com/docs/manual/administration/install-community/).
 2. Start MongoDB - The [installation instructions](https://www.mongodb.com/docs/manual/administration/) provide start and stop commands, which differ depending on the operating system being used.
 3. Install API libraries - From the `api` directory run `npm install`.
 4. Start the Express server - From the `api` directory run `node server.js`. The server will begin listening for HTTP requests on port 8080.
