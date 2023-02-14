@@ -16,7 +16,7 @@
 ### API:
 
 - ExpressJS
-- MongoDb
+- MongoDB
 - Mongoose
 - jsonwebtoken
 - bcrypt
