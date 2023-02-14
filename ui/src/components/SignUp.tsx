@@ -26,7 +26,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 
 const schema = yup.object({
-  fullName: yup.string().required("Full name is required."),
+  fullname: yup.string().required("Full name is required."),
   email: yup.string().email("Email is invalid.").required("Email is required."),
   password: yup
     .string()
@@ -97,13 +97,13 @@ export default function SignUp() {
             <Grid item xs={12}>
               <Controller
                 control={control}
-                name="fullName"
+                name="fullname"
                 // defaultValue prop is required in order to prevent React error "A component is changing an uncontrolled input to be controlled."
                 defaultValue=""
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    {...register("fullName")}
+                    {...register("fullname")}
                     required
                     label="Full Name"
                     fullWidth
@@ -112,7 +112,7 @@ export default function SignUp() {
                 )}
               />
               <Typography variant="inherit" color="error">
-                {errors.fullName?.message}
+                {errors.fullname?.message}
               </Typography>
             </Grid>
             <Grid item xs={12}>
