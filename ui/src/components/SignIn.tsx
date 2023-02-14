@@ -2,6 +2,8 @@
 //     - if email and pass don't match show message "Incorrect email or password"
 //     - if email and pass match, redirect user to a page that contains the following text "If you want to see the sunshine, you have to weather the storm".
 
+import { useState } from "react";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -15,6 +17,7 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import { signin } from "../services/auth.service";
 
 const schema = yup.object({
   email: yup.string().email("Email is invalid.").required("Email is required."),
@@ -31,6 +34,11 @@ const schema = yup.object({
 type FormData = yup.InferType<typeof schema>;
 
 export default function SignIn() {
+  let navigate: NavigateFunction = useNavigate();
+
+  const [loading, setLoading] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>("");
+
   const {
     handleSubmit,
     control,
@@ -40,16 +48,30 @@ export default function SignIn() {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: FormData) => console.log(data);
+  const onSubmit = (data: FormData) => {
+    const { email, password } = data;
 
-  // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   console.log({
-  //     email: data.get("email"),
-  //     password: data.get("password"),
-  //   });
-  // };
+    setMessage("");
+    setLoading(true);
+
+    signin(email, password).then(
+      () => {
+        navigate("/protected-resource");
+        window.location.reload();
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        setLoading(false);
+        setMessage(resMessage);
+      }
+    );
+  };
 
   return (
     <Container component="main" maxWidth="xs">
