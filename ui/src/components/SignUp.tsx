@@ -1,17 +1,5 @@
-// - Business rules for the registration
-//     - All fields are required
-//     - Password must have at 12 chars with at least:
-//         - one special char
-//         - one number
-//         - one uppercase letter
-//     - Validate email
-//     - Do not accept an email that already exists in the database
-// TODO:
-// add "Registered successfully!" candybar;
-// redirect to SignIn
-// add "That email already exists in our system."
-
 import { useState } from "react";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -25,6 +13,7 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import Alert from "@mui/material/Alert";
 import { signup } from "../services/auth.service";
 
 const schema = yup.object({
@@ -44,14 +33,16 @@ const schema = yup.object({
     // https://github.com/jquense/yup/issues/104#issuecomment-1181309236
     .oneOf(
       [yup.ref("password"), null],
-      "Password and Password Confirmation are not a match."
+      "Password and Password Confirmation don't match."
     )
-    .required("Password and Password Confirmation are not a match."),
+    .required("Password and Password Confirmation don't match."),
 });
 
 type FormData = yup.InferType<typeof schema>;
 
 export default function SignUp() {
+  let navigate: NavigateFunction = useNavigate();
+
   const [successful, setSuccessful] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
 
@@ -71,6 +62,10 @@ export default function SignUp() {
       (response) => {
         setMessage(response.data.message);
         setSuccessful(true);
+        setTimeout(function () {
+          navigate("/signin");
+          window.location.reload();
+        }, 2000);
       },
       (error) => {
         const resMessage =
@@ -201,6 +196,31 @@ export default function SignUp() {
           >
             Sign Up
           </Button>
+          {message && successful && (
+            // <Box
+            //   sx={{
+            //     display: "flex",
+            //     justifyContent: "center",
+            //   }}
+            // >
+            <Alert severity="success">
+              {message}
+              <br />
+              Redirecting to Sign in page...
+            </Alert>
+
+            // </Box>
+          )}
+          {message && !successful && (
+            // <Box
+            //   sx={{
+            //     display: "flex",
+            //     justifyContent: "center",
+            //   }}
+            // >
+            <Alert severity="error">{message}</Alert>
+            // </Box>
+          )}
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Link href="/signin" variant="body2">
