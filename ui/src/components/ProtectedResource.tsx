@@ -27,10 +27,11 @@ function ProtectedResource() {
       <CssBaseline />
       <Box
         sx={{
-          marginTop: 8,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          justifyContent: "center",
+          height: "80vh",
         }}
       >
         <Typography component="h3">{message}</Typography>
