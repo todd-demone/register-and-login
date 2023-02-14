@@ -1,7 +1,3 @@
-// - Business rules for the Login:
-//     - if email and pass don't match show message "Incorrect email or password"
-//     - if email and pass match, redirect user to a page that contains the following text "If you want to see the sunshine, you have to weather the storm".
-
 import { useState } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
@@ -18,6 +14,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { signin } from "../services/auth.service";
+import Alert from "@mui/material/Alert";
 
 const schema = yup.object({
   email: yup.string().email("Email is invalid.").required("Email is required."),
@@ -36,7 +33,6 @@ type FormData = yup.InferType<typeof schema>;
 export default function SignIn() {
   let navigate: NavigateFunction = useNavigate();
 
-  const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
 
   const {
@@ -52,7 +48,6 @@ export default function SignIn() {
     const { email, password } = data;
 
     setMessage("");
-    setLoading(true);
 
     signin(email, password).then(
       () => {
@@ -67,7 +62,6 @@ export default function SignIn() {
           error.message ||
           error.toString();
 
-        setLoading(false);
         setMessage(resMessage);
       }
     );
@@ -146,6 +140,7 @@ export default function SignIn() {
           >
             Sign In
           </Button>
+          {message && <Alert severity="error">{message}</Alert>}
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Link href="/signup" variant="body2">
