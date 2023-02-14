@@ -1,4 +1,16 @@
-import * as React from "react";
+// - Business rules for the registration
+//     - All fields are required
+//     - Password must have at 12 chars with at least:
+//         - one special char
+//         - one number
+//         - one uppercase letter
+//     - Validate email
+//     - Do not accept an email that already exists in the database
+// TODO:
+// add "Registered successfully!" candybar;
+// redirect to SignIn
+// add "That email already exists in our system."
+
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -30,9 +42,9 @@ const schema = yup.object({
     // https://github.com/jquense/yup/issues/104#issuecomment-1181309236
     .oneOf(
       [yup.ref("password"), null],
-      "Password and Confirm Password are not a match."
+      "Password and Password Confirmation are not a match."
     )
-    .required("Password and Confirm Password are not a match."),
+    .required("Password and Password Confirmation are not a match."),
 });
 
 type FormData = yup.InferType<typeof schema>;
@@ -153,7 +165,7 @@ export default function SignUp() {
                     {...field}
                     {...register("confirmPassword")}
                     required
-                    label="Confirm Password"
+                    label="Password Confirmation"
                     type="password"
                     fullWidth
                     autoComplete="current-password"

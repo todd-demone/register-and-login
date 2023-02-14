@@ -1,4 +1,7 @@
-import * as React from "react";
+// - Business rules for the Login:
+//     - if email and pass don't match show message "Incorrect email or password"
+//     - if email and pass match, redirect user to a page that contains the following text "If you want to see the sunshine, you have to weather the storm".
+
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
