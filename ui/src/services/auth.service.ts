@@ -25,9 +25,9 @@ export const signin = (email: string, password: string) => {
     });
 };
 
-// export const signout = () => {
-//   localStorage.removeItem("user");
-// };
+export const signout = () => {
+  localStorage.removeItem("user");
+};
 
 export const getCurrentUser = () => {
   const userStr = localStorage.getItem("user");
