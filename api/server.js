@@ -24,7 +24,6 @@ app.use(express.json());
 // Add urlencoded middleware so we can parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev")); // log HTTP requests and errors to console
-console.log(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`);
 // Open a Mongoose connection to the MongoDB database
 db.mongoose
   .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
