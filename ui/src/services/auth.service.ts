@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/api/auth/";
+const API_URL = process.env.REACT_APP_API_BASE_URL;
 
 export const signup = (fullname: string, email: string, password: string) => {
-  return axios.post(API_URL + "signup", {
+  return axios.post(API_URL + "auth/signup", {
     fullname,
     email,
     password,
@@ -12,7 +12,7 @@ export const signup = (fullname: string, email: string, password: string) => {
 
 export const signin = (email: string, password: string) => {
   return axios
-    .post(API_URL + "signin", {
+    .post(API_URL + "auth/signin", {
       email,
       password,
     })
