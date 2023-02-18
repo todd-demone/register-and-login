@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Avatar from "@mui/material/Avatar";
@@ -38,13 +38,12 @@ export default function SignIn() {
   const {
     handleSubmit,
     control,
-    register,
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit: SubmitHandler<FormData> = (data) => {
     const { email, password } = data;
 
     setMessage("");
@@ -99,7 +98,6 @@ export default function SignIn() {
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    {...register("email")}
                     required
                     fullWidth
                     label="Email Address"
@@ -119,7 +117,6 @@ export default function SignIn() {
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    {...register("password")}
                     required
                     fullWidth
                     label="Password"

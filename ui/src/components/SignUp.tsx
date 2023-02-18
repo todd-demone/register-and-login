@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Avatar from "@mui/material/Avatar";
@@ -49,13 +49,12 @@ export default function SignUp() {
   const {
     handleSubmit,
     control,
-    register,
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit: SubmitHandler<FormData> = (data) => {
     const { fullname, email, password } = data;
 
     signup(fullname, email, password).then(
@@ -114,7 +113,6 @@ export default function SignUp() {
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    {...register("fullname")}
                     required
                     label="Full Name"
                     fullWidth
@@ -134,7 +132,6 @@ export default function SignUp() {
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    {...register("email")}
                     required
                     fullWidth
                     label="Email Address"
@@ -154,7 +151,6 @@ export default function SignUp() {
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    {...register("password")}
                     required
                     fullWidth
                     label="Password"
@@ -174,7 +170,6 @@ export default function SignUp() {
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    {...register("confirmPassword")}
                     required
                     label="Password Confirmation"
                     type="password"
@@ -197,30 +192,13 @@ export default function SignUp() {
             Sign Up
           </Button>
           {message && successful && (
-            // <Box
-            //   sx={{
-            //     display: "flex",
-            //     justifyContent: "center",
-            //   }}
-            // >
             <Alert severity="success">
               {message}
               <br />
               Redirecting to Sign in page...
             </Alert>
-
-            // </Box>
           )}
-          {message && !successful && (
-            // <Box
-            //   sx={{
-            //     display: "flex",
-            //     justifyContent: "center",
-            //   }}
-            // >
-            <Alert severity="error">{message}</Alert>
-            // </Box>
-          )}
+          {message && !successful && <Alert severity="error">{message}</Alert>}
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Link href="/signin" variant="body2">
